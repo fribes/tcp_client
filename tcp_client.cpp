@@ -5,6 +5,7 @@
     sock = -1;
     port = 0;
     address = "";
+    connected = false;
 }
  
 /**
@@ -12,6 +13,9 @@
 */
 bool tcp_client::conn(string address , int port)
 {
+    if (connected == true)
+        return true;
+
     //create socket if it is not already created
     if(sock == -1)
     {
@@ -72,6 +76,7 @@ bool tcp_client::conn(string address , int port)
         return 1;
     }
      
+    connected = true;
     cout<<"Connected\n";
     return true;
 }

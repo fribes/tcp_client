@@ -21,6 +21,7 @@ private:
     std::string address;
     int port;
     struct sockaddr_in server;
+    bool connected;
      
 public:
     tcp_client();

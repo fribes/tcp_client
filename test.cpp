@@ -15,10 +15,17 @@ int main(int argc , char *argv[])
      
     //connect to host
     c.conn(host , port);
-     
+   
 
     //send some data
-    c.send_data("Hi!");
+    c.send_data("Hi!\n");
+
+    //connect to host
+    c.conn(host , port);
+   
+
+    //send some data
+    c.send_data("Hi2!\n");
           
     //done
     return 0;
