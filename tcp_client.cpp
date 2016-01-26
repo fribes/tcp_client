@@ -2,6 +2,7 @@
 
  tcp_client::tcp_client()
 {
+    cout<<"Constructor\n";
     sock = -1;
     port = 0;
     address = "";
@@ -13,8 +14,11 @@
 */
 bool tcp_client::conn(string address , int port)
 {
-    if (connected == true)
+    cout<<"Entering connect\n";
+    if (connected == true) {
+        cout<<"Reusing existing connection\n";
         return true;
+    }
 
     //create socket if it is not already created
     if(sock == -1)
@@ -28,7 +32,9 @@ bool tcp_client::conn(string address , int port)
          
         cout<<"Socket created\n";
     }
-    else    {   /* OK , nothing */  }
+    else {   
+        cout<<"Reusing existing socket\n";
+    }
      
     //setup address structure
     if(inet_addr(address.c_str()) == -1)
