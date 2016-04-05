@@ -1,12 +1,15 @@
 #include "tcp_client.hpp"
 
- tcp_client::tcp_client()
+#define DEBUG( x ) if (debug == true) cout<<x
+
+ tcp_client::tcp_client(bool initdebug)
 {
-    cout<<"Constructor\n";
     sock = -1;
     port = 0;
     address = "";
     connected = false;
+    debug = initdebug;
+    DEBUG("Constructor\n");
 }
  
 /**
@@ -14,9 +17,9 @@
 */
 bool tcp_client::conn(string address , int port)
 {
-    cout<<"Entering connect\n";
+    DEBUG("Entering connect\n");
     if (connected == true) {
-        cout<<"Reusing existing connection\n";
+        DEBUG("Reusing existing connection\n");
         return true;
     }
 
@@ -30,10 +33,10 @@ bool tcp_client::conn(string address , int port)
             perror("Could not create socket");
         }
          
-        cout<<"Socket created\n";
+        DEBUG("Socket created\n");
     }
     else {   
-        cout<<"Reusing existing socket\n";
+        DEBUG("Reusing existing socket\n");
     }
      
     //setup address structure
@@ -46,8 +49,8 @@ bool tcp_client::conn(string address , int port)
         if ( (he = gethostbyname( address.c_str() ) ) == NULL)
         {
             //gethostbyname failed
-            herror("gethostbyname");
-            cout<<"Failed to resolve hostname\n";
+            perror("gethostbyname");
+            DEBUG("Failed to resolve hostname\n");
              
             return false;
         }
@@ -60,7 +63,7 @@ bool tcp_client::conn(string address , int port)
             //strcpy(ip , inet_ntoa(*addr_list[i]) );
             server.sin_addr = *addr_list[i];
              
-            cout<<address<<" resolved to "<<inet_ntoa(*addr_list[i])<<endl;
+            DEBUG(address<<" resolved to "<<inet_ntoa(*addr_list[i])<<endl);
              
             break;
         }
@@ -83,7 +86,7 @@ bool tcp_client::conn(string address , int port)
     }
      
     connected = true;
-    cout<<"Connected\n";
+    DEBUG("Connected\n");
     return true;
 }
  
@@ -98,7 +101,7 @@ bool tcp_client::send_data(string data)
         perror("Send failed : ");
         return false;
     }
-    cout<<"Data send\n";
+    DEBUG("Data send\n");
      
     return true;
 }
@@ -114,7 +117,7 @@ string tcp_client::receive(int size=512)
     //Receive a reply from the server
     if( recv(sock , buffer , sizeof(buffer) , 0) < 0)
     {
-        puts("recv failed");
+        DEBUG("recv failed\n");
     }
      
     reply = buffer;

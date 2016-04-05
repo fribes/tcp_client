@@ -22,10 +22,12 @@ private:
     int port;
     struct sockaddr_in server;
     bool connected;
+    bool debug;
      
 public:
-    tcp_client();
+    tcp_client(bool initdebug=false);
     bool conn(string, int);
     bool send_data(string data);
     string receive(int);
 };
+
